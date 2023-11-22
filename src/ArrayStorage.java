@@ -3,12 +3,13 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int size = size();
+    int size;
 
     void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
+        size = 0;
         System.out.println("\nВыполнена очистка массива");
     }
 
@@ -26,9 +27,9 @@ public class ArrayStorage {
         if (index == -1) {
             System.out.println("\nРезюме " + uuid + " посмотреть невозможно. Отсутствует в хранилище");
             return null;
-        } else {
-            return storage[index];
         }
+
+        return storage[index];
     }
 
     void delete(String uuid) {
@@ -37,9 +38,6 @@ public class ArrayStorage {
             System.out.println("\nРезюме " + uuid + " удалить невозможно. Отсутствует в хранилище");
         } else {
             storage[index] = storage[size - 1];
-            /*for (int i = index; i < size - 1; i++) {
-                storage[i] = storage[i + 1];
-            }*/
             storage[size - 1] = null;
             size--;
         }
@@ -58,29 +56,15 @@ public class ArrayStorage {
     }
 
     int size() {
-        if (storage[0] == null)
-            return 0;
-        int first = 0, middle = 0;
-        int last = storage.length - 1;
-        while (first <= last) {
-            middle = (first + last) / 2;
-            if (storage[middle] == null) {
-                last = middle - 1;
-            } else {
-                first = middle + 1;
-            }
-        }
-        return last + 1;
+        return size;
     }
 
     int findIndex(String uuid) {
-        int i = 0;
-        //int size = size();
-        while (!uuid.equals(storage[i].uuid)) {
-            i++;
-            if (i == size)
-                return -1;
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].uuid))
+                return i;
         }
-        return i;
+
+        return -1;
     }
 }
