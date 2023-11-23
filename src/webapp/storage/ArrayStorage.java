@@ -1,11 +1,15 @@
+package webapp.storage;
+
+import webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int size;
+    private Resume[] storage = new Resume[10000];
+    private int size;
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
@@ -13,7 +17,7 @@ public class ArrayStorage {
         System.out.println("\nВыполнена очистка массива");
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (size < storage.length) {
             storage[size] = r;
             size++;
@@ -22,7 +26,7 @@ public class ArrayStorage {
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index == -1) {
             System.out.println("\nРезюме " + uuid + " посмотреть невозможно. Отсутствует в хранилище");
@@ -32,7 +36,7 @@ public class ArrayStorage {
         return storage[index];
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index == -1) {
             System.out.println("\nРезюме " + uuid + " удалить невозможно. Отсутствует в хранилище");
@@ -47,7 +51,7 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] resumes = new Resume[size];
         for (int i = 0; i < size; i++) {
             resumes[i] = storage[i];
@@ -55,13 +59,13 @@ public class ArrayStorage {
         return resumes;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
-    int findIndex(String uuid) {
+    private int findIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].uuid))
+            if (uuid.equals(storage[i].getUuid()))
                 return i;
         }
 
