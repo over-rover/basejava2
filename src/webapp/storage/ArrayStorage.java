@@ -5,9 +5,8 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10000];
     private int size;
-    private int index = -1;
 
     public void clear() {
         Arrays.fill(storage, null);
@@ -16,21 +15,20 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (isExist(r.getUuid())) {
-            System.out.println("Резюме " + r.getUuid() + " уже существует в ArrayStorage. Придумайте другой uuid");
-            return;
-        }
-
-        if (size < storage.length) {
+        int index = getSearchKey(r.getUuid());
+        if (size == storage.length) {
+            System.out.println("Хранилище переполнено. SAVE impossible");
+        } else if (isExist(index)) {
+            System.out.println("Резюме " + r.getUuid() + " уже существует в ArrayStorage. SAVE impossible");
+        } else {
             storage[size] = r;
             size++;
-        } else {
-            System.out.println("Хранилище переполнено. SAVE impossible");
         }
     }
 
     public Resume get(String uuid) {
-        if (isExist(uuid)) {
+        int index = getSearchKey(uuid);
+        if (isExist(index)) {
             return storage[index];
         } else {
             System.out.println("\nРезюме " + uuid + " отсутствует в хранилище. GET impossible");
@@ -39,7 +37,8 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        if (isExist(r.getUuid())) {
+        int index = getSearchKey(r.getUuid());
+        if (isExist(index)) {
             storage[index] = r;
             System.out.println("Резюме " + r.getUuid() + " successfully updated");
         } else {
@@ -48,14 +47,15 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (!isExist(uuid)) {
-            System.out.println("\nРезюме " + uuid + " удалить невозможно. Отсутствует в хранилище");
+        int index = getSearchKey(uuid);
+        if (!isExist(index)) {
+            System.out.println("\nРезюме " + uuid + " Отсутствует в хранилище. DELETE impossible");
         } else {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
+            System.out.println("\nРезюме " + uuid + " successfully deleted.");
         }
-        System.out.println("\nРезюме " + uuid + " удалено из массива.");
     }
 
     public Resume[] getAll() {
@@ -66,14 +66,16 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean isExist(String uuid) {
+    private int getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
-                index = i;
-                return true;
+                return i;
             }
         }
-        index = -1;
-        return false;
+        return -1;
+    }
+
+    private boolean isExist(int index) {
+        return index >= 0;
     }
 }
