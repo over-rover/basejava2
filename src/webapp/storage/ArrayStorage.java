@@ -5,7 +5,8 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10_000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
@@ -16,7 +17,7 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         int index = getSearchKey(r.getUuid());
-        if (size == storage.length) {
+        if (size == STORAGE_LIMIT) {
             System.out.println("Хранилище переполнено. SAVE impossible");
         } else if (isExist(index)) {
             System.out.println("Резюме " + r.getUuid() + " уже существует в ArrayStorage. SAVE impossible");
