@@ -5,7 +5,8 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10_000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
