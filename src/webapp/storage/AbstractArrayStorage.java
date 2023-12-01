@@ -9,7 +9,7 @@ public abstract class AbstractArrayStorage implements Storage {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    public void save(Resume r) {
+    public final void save(Resume r) {
         int index = getSearchKey(r.getUuid());
         if (size == STORAGE_LIMIT) {
             System.out.println("Массив переполнен. SAVE impossible");
@@ -27,7 +27,7 @@ public abstract class AbstractArrayStorage implements Storage {
         System.out.println("\nВыполнена очистка массива");
     }
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getSearchKey(uuid);
         if (isExist(index)) {
             return storage[index];
@@ -37,7 +37,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void update(Resume r) {
+    public final void update(Resume r) {
         int index = getSearchKey(r.getUuid());
         if (isExist(index)) {
             storage[index] = r;
@@ -47,7 +47,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (!isExist(index)) {
             System.out.println("\nРезюме " + uuid + " Отсутствует в массиве. DELETE impossible");
