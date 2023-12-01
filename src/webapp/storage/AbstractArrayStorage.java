@@ -16,7 +16,7 @@ public abstract class AbstractArrayStorage implements Storage {
         } else if (isExist(index)) {
             System.out.println("Резюме " + r.getUuid() + " уже существует в массиве. SAVE impossible");
         } else {
-            saveLogic(r, index);
+            insertResume(r, index);
             size++;
         }
     }
@@ -52,7 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (!isExist(index)) {
             System.out.println("\nРезюме " + uuid + " Отсутствует в массиве. DELETE impossible");
         } else {
-            deleteLogic(index);
+            deleteResume(index);
             size--;
             System.out.println("\nРезюме " + uuid + " successfully deleted из массива.");
         }
@@ -72,7 +72,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return index >= 0;
     }
 
-    protected abstract void deleteLogic(int index);
+    protected abstract void deleteResume(int index);
 
-    protected abstract void saveLogic(Resume r, int index);
+    protected abstract void insertResume(Resume r, int index);
 }
