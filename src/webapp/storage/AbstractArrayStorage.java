@@ -1,5 +1,8 @@
 package webapp.storage;
 
+import webapp.exception.ExistStorageException;
+import webapp.exception.NotExistStorageException;
+import webapp.exception.StorageException;
 import webapp.model.Resume;
 
 import java.util.Arrays;
@@ -12,9 +15,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         int index = getSearchKey(r.getUuid());
         if (size == STORAGE_LIMIT) {
-            System.out.println("Массив переполнен. SAVE impossible");
+            throw new StorageException("Массив переполнен. SAVE impossible", r.getUuid());
         } else if (isExist(index)) {
-            System.out.println("Резюме " + r.getUuid() + " уже существует в массиве. SAVE impossible");
+            throw new ExistStorageException("Резюме " + r.getUuid() + " уже существует в массиве. SAVE impossible", r.getUuid());
         } else {
             insertResume(r, index);
             size++;
@@ -32,8 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (isExist(index)) {
             return storage[index];
         } else {
-            System.out.println("\nРезюме " + uuid + " отсутствует в массиве. GET impossible");
-            return null;
+            throw new NotExistStorageException("\nРезюме " + uuid + " отсутствует в массиве. GET impossible", uuid);
         }
     }
 
@@ -43,14 +45,14 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = r;
             System.out.println("Резюме " + r.getUuid() + " successfully updated");
         } else {
-            System.out.println("Резюме " + r.getUuid() + " отсутствует в массиве. UPDATE impossible");
+            throw new NotExistStorageException("Резюме " + r.getUuid() + " отсутствует в массиве. UPDATE impossible", r.getUuid());
         }
     }
 
     public final void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (!isExist(index)) {
-            System.out.println("\nРезюме " + uuid + " Отсутствует в массиве. DELETE impossible");
+            throw new NotExistStorageException("\nРезюме " + uuid + " Отсутствует в массиве. DELETE impossible", uuid);
         } else {
             deleteResume(index);
             size--;
