@@ -49,10 +49,9 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (Exception ignored) {
-            Assert.fail("Переполнение массива произошло раньше времени");
-        } finally {
-            storage.save(new Resume());
+            Assert.fail("Непредвиденная ошибка при добавлении резюме в массив");
         }
+        storage.save(new Resume());
     }
 
     @Test(expected = ExistStorageException.class)
