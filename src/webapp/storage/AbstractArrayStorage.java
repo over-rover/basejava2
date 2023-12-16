@@ -24,6 +24,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
+    protected boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
+    }
+
     protected void checkOverflowException(Resume r) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Массив переполнен. SAVE impossible", r.getUuid());
@@ -31,18 +35,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, int index) {
-        storage[index] = r;
+    protected void doUpdate(Resume r, Object searchKey) {
+        storage[(int) searchKey] = r;
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage[index];
+    protected Resume doGet(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
-    protected abstract int getSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void deleteResume(int index);
+    protected abstract void doDelete(Object searchKey);
 
-    protected abstract void insertResume(Resume r, int index);
+    protected abstract void doSave(Resume r, Object searchKey);
 }

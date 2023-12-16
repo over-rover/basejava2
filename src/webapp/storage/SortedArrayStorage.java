@@ -5,20 +5,21 @@ import webapp.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-    protected int getSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    protected void deleteResume(int index) {
-        System.arraycopy(storage, index + 1 , storage, index, size - index - 1);
+    protected void doDelete(Object searchKey) {
+        System.arraycopy(storage, (int) searchKey + 1, storage, (int) searchKey, size - (int) searchKey - 1);
         size--;
     }
 
     @Override
-    protected void insertResume(Resume r, int index) {
-        int insertPoint = -(index + 1);
+    protected void doSave(Resume r, Object searchKey) {
+        checkOverflowException(r);
+        int insertPoint = -((int) searchKey + 1);
         System.arraycopy(storage, insertPoint, storage, insertPoint + 1, size - insertPoint);
         storage[insertPoint] = r;
         size++;
