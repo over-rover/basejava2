@@ -128,6 +128,13 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
+    public void getAllSorted() {
+        Arrays.sort(INITIAL_RESUMES);
+        Resume[] actual = storage.getAllSorted().toArray(new Resume[0]);
+        Assert.assertArrayEquals(INITIAL_RESUMES, actual);
+    }
+
+    @Test
     public void size() {
         assertSize(INITIAL_SIZE);
     }

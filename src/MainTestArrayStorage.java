@@ -1,8 +1,5 @@
 import webapp.model.Resume;
-import webapp.storage.ArrayStorage;
-import webapp.storage.ListStorage;
-import webapp.storage.SortedArrayStorage;
-import webapp.storage.Storage;
+import webapp.storage.*;
 
 /**
  * Test for your webapp.storage.ArrayStorage implementation
@@ -10,7 +7,9 @@ import webapp.storage.Storage;
 public class MainTestArrayStorage {
     //static final Storage ARRAY_STORAGE = new ArrayStorage();
     //static final Storage ARRAY_STORAGE = new SortedArrayStorage();
-    static final Storage ARRAY_STORAGE = new ListStorage();
+    //static final Storage ARRAY_STORAGE = new ListStorage();
+    //static final Storage ARRAY_STORAGE = new MapUuidStorage();
+    static final Storage ARRAY_STORAGE = new MapResumeStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid10");

@@ -3,6 +3,7 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     protected Object getSearchKey(String uuid) {
@@ -23,5 +24,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         System.arraycopy(storage, insertPoint, storage, insertPoint + 1, size - insertPoint);
         storage[insertPoint] = r;
         size++;
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        return Arrays.asList(getAll());
     }
 }

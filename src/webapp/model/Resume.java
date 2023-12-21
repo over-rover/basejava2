@@ -28,6 +28,8 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
