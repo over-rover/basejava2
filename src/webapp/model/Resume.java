@@ -4,20 +4,16 @@ import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
 
+    private final String fullName;
     private final String uuid;
-    private String fullName = "Anonimus";
 
-    public Resume() {
-        this(UUID.randomUUID().toString());
+    public Resume(String fullName) {
+        this(fullName, UUID.randomUUID().toString());
     }
 
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Resume(String uuid, String fullName) {
-        this.uuid = uuid;
+    public Resume(String fullName, String uuid) {
         this.fullName = fullName;
+        this.uuid = uuid;
     }
 
     public String getUuid() {
@@ -27,8 +23,6 @@ public class Resume implements Comparable<Resume> {
     public String getFullName() {
         return fullName;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -53,6 +47,6 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public int compareTo(Resume r) {
-        return (fullName + uuid).compareTo(r.fullName + r.uuid);
+        return uuid.compareTo(r.uuid);
     }
 }

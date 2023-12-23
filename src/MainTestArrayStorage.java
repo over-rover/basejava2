@@ -6,16 +6,16 @@ import webapp.storage.*;
  */
 public class MainTestArrayStorage {
     //static final Storage ARRAY_STORAGE = new ArrayStorage();
-    //static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
     //static final Storage ARRAY_STORAGE = new ListStorage();
     //static final Storage ARRAY_STORAGE = new MapUuidStorage();
-    static final Storage ARRAY_STORAGE = new MapResumeStorage();
+    //static final Storage ARRAY_STORAGE = new MapResumeStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume("uuid10");
-        Resume r2 = new Resume("uuid25");
-        Resume r3 = new Resume("uuid15");
-        Resume r4 = new Resume("uuid20");
+        Resume r1 = new Resume("name10", "uuid10");
+        Resume r2 = new Resume("name25", "uuid25");
+        Resume r3 = new Resume("name15", "uuid15");
+        Resume r4 = new Resume("name20", "uuid20");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);

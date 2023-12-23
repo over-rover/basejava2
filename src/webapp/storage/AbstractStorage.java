@@ -4,10 +4,13 @@ import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
+    public static final Comparator<Resume> RESUME_COMPARATOR =
+            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     public void save(Resume r) {
         Object searchKey = getExistingSearchKey(r.getUuid());
@@ -17,6 +20,12 @@ public abstract class AbstractStorage implements Storage {
     public final Resume get(String uuid) {
         Object searchKey = getNotExistingSearchKey(uuid);
         return doGet(searchKey);
+    }
+
+    public final List<Resume> getAllSorted() {
+        List<Resume> list = Arrays.asList(getAll());
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     public final void update(Resume r) {
@@ -48,8 +57,6 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public abstract Resume[] getAll();
-
-    public abstract List<Resume> getAllSorted();
 
     public abstract void clear();
 
@@ -83,5 +90,7 @@ public abstract class AbstractStorage implements Storage {
                     r2.getFullName() + r2.getUuid());*/
 
     // Идея предложила еще более короткую лямбду
-    Comparator<Resume> comparator = Comparator.comparing(r -> (r.getFullName() + r.getUuid()));
+    //Comparator<Resume> comparator = Comparator.comparing(r -> (r.getFullName() + r.getUuid()));
+
+
 }

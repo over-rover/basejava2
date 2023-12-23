@@ -2,7 +2,8 @@ package webapp.storage;
 
 import webapp.model.Resume;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapUuidStorage extends AbstractStorage {
     protected final Map<String, Resume> storage = new HashMap<>();
@@ -14,12 +15,6 @@ public class MapUuidStorage extends AbstractStorage {
 
     public Resume[] getAll() {
         return storage.values().toArray(new Resume[0]);
-    }
-
-    public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<>(storage.values());
-        list.sort(comparator);
-        return list;
     }
 
     public int size() {

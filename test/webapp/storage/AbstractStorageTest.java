@@ -11,12 +11,17 @@ import java.util.Arrays;
 
 public abstract class AbstractStorageTest {
     protected final Storage storage;
+    private static final String FULL_NAME_1 = "name10";
     private static final String UUID_1 = "uuid10";
+    private static final String FULL_NAME_2 = "name25";
     private static final String UUID_2 = "uuid25";
+    private static final String FULL_NAME_3 = "name15";
     private static final String UUID_3 = "uuid15";
+    private static final String FULL_NAME_4 = "name20";
     private static final String UUID_4 = "uuid20";
 
-    private static final String DUMMY_UUID = "dummy";
+    private static final String DUMMY_NAME = "dummy_name";
+    private static final String DUMMY_UUID = "dummy_uuid";
 
     private static final Resume R1;
     private static final Resume R2;
@@ -28,11 +33,11 @@ public abstract class AbstractStorageTest {
     private static final int INITIAL_SIZE;
 
     static {
-        R1 = new Resume(UUID_1);
-        R2 = new Resume(UUID_2);
-        R3 = new Resume(UUID_3);
-        R4 = new Resume(UUID_4);
-        DUMMY_RESUME = new Resume(DUMMY_UUID);
+        R1 = new Resume(FULL_NAME_1, UUID_1);
+        R2 = new Resume(FULL_NAME_2, UUID_2);
+        R3 = new Resume(FULL_NAME_3, UUID_3);
+        R4 = new Resume(FULL_NAME_4, UUID_4);
+        DUMMY_RESUME = new Resume(DUMMY_NAME, DUMMY_UUID);
 
         INITIAL_RESUMES = new Resume[]{R1, R2, R3};
         INITIAL_SIZE = INITIAL_RESUMES.length;
@@ -56,7 +61,7 @@ public abstract class AbstractStorageTest {
         storage.clear();
         try {
             for (int i = 0; i < 10_000; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume(""));
             }
         } catch (Exception ignored) {
             Assert.fail("Непредвиденная ошибка при добавлении резюме в хранилище");
@@ -101,7 +106,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(UUID_2);
+        Resume resume = new Resume(FULL_NAME_2, UUID_2);
         storage.update(resume);
         Assert.assertSame(resume, storage.get(UUID_2));
     }
