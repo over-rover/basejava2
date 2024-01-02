@@ -3,7 +3,7 @@ package webapp.storage;
 import webapp.model.Resume;
 
 public class ArrayStorage extends AbstractArrayStorage {
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
@@ -13,14 +13,14 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        storage[(int) searchKey] = storage[size - 1];
+    protected void doDelete(Integer searchKey) {
+        storage[searchKey] = storage[size - 1];
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void doSave(Resume r, Object searchKey) {
+    protected void doSave(Resume r, Integer searchKey) {
         checkOverflowException(r);
         storage[size] = r;
         size++;

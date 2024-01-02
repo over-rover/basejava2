@@ -1,11 +1,15 @@
 package webapp.model;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
 
     private final String fullName;
     private final String uuid;
+    private final Map<ContactType, String> contacts = new LinkedHashMap<>();
+    private final Map<SectionType, Section> sections = new LinkedHashMap<>();
 
     public Resume(String fullName) {
         this(fullName, UUID.randomUUID().toString());
@@ -22,6 +26,24 @@ public class Resume implements Comparable<Resume> {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public void addContact(ContactType contactType, String contact) {
+        contacts.put(contactType, contact);
+    }
+
+    public void addSection(SectionType sectionType, Section section) {
+        sections.put(sectionType, section);
+    }
+
+    public void printToConsole() {
+        System.out.println(fullName);
+        for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+        for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            System.out.println(entry.getKey() + "\n" + entry.getValue());
+        }
     }
 
     @Override

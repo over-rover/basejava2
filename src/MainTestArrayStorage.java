@@ -1,4 +1,5 @@
 import webapp.model.Resume;
+import webapp.model.SectionType;
 import webapp.storage.*;
 
 /**

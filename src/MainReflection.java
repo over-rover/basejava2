@@ -1,5 +1,3 @@
-package webapp;
-
 import webapp.model.Resume;
 
 import java.lang.reflect.Field;
