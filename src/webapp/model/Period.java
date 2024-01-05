@@ -1,10 +1,12 @@
 package webapp.model;
 
+import java.time.LocalDate;
+
 public class Period {
     private String title;
     private String description;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public String getTitle() {
         return title;
@@ -23,24 +25,27 @@ public class Period {
     }
 
     public String getStartDate() {
-        return startDate;
+        return startDate.toString();
     }
 
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        this.startDate = LocalDate.parse(startDate);
     }
 
     public String getEndDate() {
-        return endDate;
+        return endDate.toString();
     }
 
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
+        if (endDate.equalsIgnoreCase("По настоящее время"))
+            this.endDate = LocalDate.now();
+        else
+            this.endDate = LocalDate.parse(endDate);
     }
 
     @Override
     public String toString() {
-        return title + "\n" + description + "\n" +
-                startDate + "\n" + endDate + "\n";
+        return "Период " + startDate + " : " + endDate + "\n" +
+                title + "\n" + description + "\n";
     }
 }

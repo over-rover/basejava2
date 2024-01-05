@@ -18,4 +18,19 @@ public class ListSection extends Section {
         }
         return s.toString();
     }
+
+    @Override
+    public boolean equals(Object searchKey) {
+        if (this == searchKey) return true;
+        if (searchKey == null || getClass() != searchKey.getClass()) return false;
+
+        ListSection that = (ListSection) searchKey;
+
+        return descriptions.equals(that.descriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return descriptions.hashCode();
+    }
 }

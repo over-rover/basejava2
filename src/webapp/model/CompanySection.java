@@ -4,58 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanySection extends Section {
-    private String name;
-    private String website;
-    private List<Period> periods = new ArrayList<>();
+    private final List<Company> companies = new ArrayList<>();
 
-    public CompanySection() {
-        this("");
+    public List<Company> getCompanies() {
+        return companies;
     }
 
-    public CompanySection(String name) {
-        this(name, "");
+    public void add(Company company) {
+        companies.add(company);
     }
 
-    public CompanySection(String name, String website) {
-        this.name = name;
-        this.website = website;
+
+
+    public void delete(Company company) {
+        companies.remove(company);
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object searchKey) {
+        if (this == searchKey) return true;
+        if (searchKey == null || getClass() != searchKey.getClass()) return false;
+
+        CompanySection that = (CompanySection) searchKey;
+
+        return companies.equals(that.companies);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public List<Period> getPeriods() {
-        return periods;
-    }
-
-    public void setPeriods(List<Period> periods) {
-        this.periods = periods;
-    }
-
-    public void addPeriod(Period period) {
-        periods.add(period);
+    @Override
+    public int hashCode() {
+        return companies.hashCode();
     }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder(name + "\n" + website + "\n");
-        for (Period value : periods) {
-            s.append(value.toString());
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Company company : companies) {
+            stringBuilder.append(company);
         }
-
-        return s.toString();
+        return stringBuilder.toString();
     }
 }

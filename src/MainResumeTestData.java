@@ -21,80 +21,84 @@ public class MainResumeTestData {
         listSection.addDescription("Имею квалификацию 4");
         resume.addSection(SectionType.QUALIFICATIONS, listSection);
 
-        CompanySection company = new CompanySection();
+        CompanySection companySection = new CompanySection();
+        Company company = new Company();
         company.setName("Компания-1");
         company.setWebsite("https://company-1");
 
         Period period = new Period();
         period.setTitle("В период1 занимал Должность1");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период1");
-        period.setStartDate("Начало работы: 00.00.0004");
-        period.setEndDate("Конец работы: 00.00.0005");
+        period.setStartDate("2004-01-01");
+        period.setEndDate("2004-12-31");
         company.addPeriod(period);
-        //period = company.getPeriods().get(0);
-        //updatePeriodField
-        //company.getPeriods().set(0, period);
 
         period = new Period();
         period.setTitle("В период2 занимал Должность2");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период2");
-        period.setStartDate("Начало работы: 00.00.0005");
-        period.setEndDate("Конец работы: 00.00.0006");
+        period.setStartDate("2005-01-01");
+        period.setEndDate("2005-12-31");
         company.addPeriod(period);
 
-        resume.addSection(SectionType.EXPERIENCE, company);
+        companySection.add(company);
+        resume.addSection(SectionType.EXPERIENCE, companySection);
 
-        company = new CompanySection();
+        company = new Company();
         company.setName("Компания-2");
         company.setWebsite("https://company-2");
 
         period = new Period();
         period.setTitle("Занимаю Должность...");
         period.setDescription("Здесь указываем должностные обязанности в компании2");
-        period.setStartDate("Начало работы: 00.00.0006");
-        period.setEndDate("Конец работы: настоящее время");
+        period.setStartDate("2006-01-01");
+        period.setEndDate("По настоящее время");
         company.addPeriod(period);
 
-        resume.addSection(SectionType.EXPERIENCE, company);
+        companySection.add(company);
+
+        resume.addSection(SectionType.EXPERIENCE, companySection);
 
 
-        company = new CompanySection();
+        company = new Company();
         company.setName("ВУЗ-1");
         company.setWebsite("https://ed1");
         period = new Period();
         period.setTitle("Студент");
         period.setDescription("Проходил следующие дисциплины: основы студентуры");
-        period.setStartDate("Начало: 00.00.0000");
-        period.setEndDate("Конец: 00.00.0001");
+        period.setStartDate("2000-01-01");
+        period.setEndDate("2000-12-31");
         company.addPeriod(period);
 
-        resume.addSection(SectionType.EDUCATION, company);
+        companySection.add(company);
+        resume.addSection(SectionType.EDUCATION, companySection);
 
         period = new Period();
         period.setTitle("Магистр");
         period.setDescription("Проходил следующие дисциплины: основы магистратуры");
-        period.setStartDate("Начало: 00.00.0001");
-        period.setEndDate("Конец: 00.00.0002");
+        period.setStartDate("2001-01-01");
+        period.setEndDate("2001-12-31");
         company.addPeriod(period);
 
 
         period = new Period();
         period.setTitle("Аспирант");
         period.setDescription("Проходил следующие дисциплины: основы аспирантуры");
-        period.setStartDate("Начало: 00.00.0002");
-        period.setEndDate("Конец: 00.00.0003");
+        period.setStartDate("2002-01-01");
+        period.setEndDate("2002-12-31");
         company.addPeriod(period);
 
-        company = new CompanySection();
+        company = new Company();
         company.setName("ВУЗ-2");
         company.setWebsite("https://ed2");
         period = new Period();
         period.setTitle("Повышение квалификации");
         period.setDescription("Проходил следующие дисциплины: основы повышения квалификации");
-        period.setStartDate("Начало: 00.00.0003");
-        period.setEndDate("Конец: 00.00.0004");
+        period.setStartDate("2003-01-01");
+        period.setEndDate("2003-12-31");
         company.addPeriod(period);
-        resume.addSection(SectionType.EDUCATION, company);
+
+        companySection.add(company);
+        resume.addSection(SectionType.EDUCATION, companySection);
 
         resume.printToConsole();
     }

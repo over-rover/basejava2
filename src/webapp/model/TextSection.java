@@ -1,7 +1,7 @@
 package webapp.model;
 
 public class TextSection extends Section {
-    private String description;
+    private final String description;
 
     public TextSection(String description) {
         this.description = description;
@@ -10,5 +10,20 @@ public class TextSection extends Section {
     @Override
     public String toString() {
         return description;
+    }
+
+    @Override
+    public boolean equals(Object searchKey) {
+        if (this == searchKey) return true;
+        if (searchKey == null || getClass() != searchKey.getClass()) return false;
+
+        TextSection that = (TextSection) searchKey;
+
+        return description.equals(that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return description.hashCode();
     }
 }
