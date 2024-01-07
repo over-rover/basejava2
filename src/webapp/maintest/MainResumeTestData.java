@@ -1,15 +1,24 @@
+package webapp.maintest;
+
 import webapp.model.*;
 
-// Класс скопирован в maintest из-за невозможности увидеть его по этому пути (src)
 public class MainResumeTestData {
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         //fillContent("ФИО1","uuid1").printToConsole();
         //autoFillContent("ФИО1", "uuid1").printToConsole();
         //autoFillContent("ФИО2", "uuid2").printToConsole();
 
     }
 
+    /*Автозаполнение резюме для проведения тестов.
+     * Все объекты идентифицируются по fullName-uuid и порядковому номеру объекта, если их несколько
+     * Количество достижений и квалификаций определяется случайным образом от 1 до 3 включительно
+     * Количество компаний-работодателей - 2
+     * Количество компаний-учебных заведений - 2
+     * Количество периодов (а также должностей и должностных обязанностей)
+     * определяется случайным образом от 1 до 3 включительно
+     * Вопрос по заполнению startDate и endDate требует пояснений*/
     public static Resume autoFillContent(String fullName, String uuid) {
         String user = fullName + " " + uuid;
 
@@ -26,24 +35,24 @@ public class MainResumeTestData {
         resume.addSection(SectionType.PERSONAL, new TextSection(user + " personal"));
 
         ListSection listSection = new ListSection();
-        for (int a = 1; a <= (int) (Math.random() * 4 + 1); a++) {
+        for (int a = 1; a <= (int) (Math.random() * 3 + 1); a++) {
             listSection.addDescription(user + " имеет достижение " + a);
         }
         resume.addSection(SectionType.ACHIEVMENT, listSection);
 
         listSection = new ListSection();
-        for (int q = 1; q <= (int) (Math.random() * 4 + 1); q++) {
+        for (int q = 1; q <= (int) (Math.random() * 3 + 1); q++) {
             listSection.addDescription(user + " имеет квалификацию " + q);
         }
         resume.addSection(SectionType.QUALIFICATIONS, listSection);
 
         CompanySection eduCompanySection = new CompanySection();
         CompanySection expCompanySection = new CompanySection();
-        for (int c = 1; c <= 3; c++) {
+        for (int c = 1; c <= 4; c++) {
             Company company = new Company();
             company.setName(user + " Company-" + c + " name");
             company.setWebsite(user + " www.company-" + c + ".ru");
-            for (int p = 1; p <= (int) (Math.random() * 2 + 1); p++) {
+            for (int p = 1; p <= (int) (Math.random() * 3 + 1); p++) {
                 Period period = new Period();
                 period.setTitle(user + " Должность-" + p);
                 period.setDescription(user + " Должностные обязанности - " + p);
@@ -52,7 +61,7 @@ public class MainResumeTestData {
                 company.addPeriod(period);
             }
 
-            if (c < 3) {
+            if (c <= 2) {
                 expCompanySection.add(company);
                 resume.addSection(SectionType.EXPERIENCE, expCompanySection);
             } else {
@@ -68,6 +77,11 @@ public class MainResumeTestData {
         Resume resume = new Resume(fullName, uuid);
         resume.addContact(ContactType.PHONE, "+70000000000");
         resume.addContact(ContactType.EMAIL, "my_email@mail.ru");
+        resume.addContact(ContactType.SKYPE, "skype");
+        resume.addContact(ContactType.LINKEDIN, "linkedin");
+        resume.addContact(ContactType.GITHUB, "github");
+        resume.addContact(ContactType.STACKOVERFLOW, "stackoverflow");
+        resume.addContact(ContactType.HOMEPAGE, "homepage");
         resume.addSection(SectionType.OBJECTIVE, new TextSection("Заполняем раздел \"Позиция\""));
         resume.addSection(SectionType.PERSONAL, new TextSection("Здесь пишем о личных качествах"));
         ListSection listSection = new ListSection();
@@ -164,5 +178,5 @@ public class MainResumeTestData {
         resume.addSection(SectionType.EDUCATION, companyEdSection);
 
         return resume;
-    }*/
+    }
 }

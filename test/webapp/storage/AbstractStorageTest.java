@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
+import webapp.maintest.MainResumeTestData;
 import webapp.model.Resume;
 
 import java.util.Arrays;
@@ -33,11 +34,17 @@ public abstract class AbstractStorageTest {
     private static final int INITIAL_SIZE;
 
     static {
-        R1 = new Resume(FULL_NAME_1, UUID_1);
+        /*R1 = new Resume(FULL_NAME_1, UUID_1);
         R2 = new Resume(FULL_NAME_2, UUID_2);
         R3 = new Resume(FULL_NAME_3, UUID_3);
         R4 = new Resume(FULL_NAME_4, UUID_4);
-        DUMMY_RESUME = new Resume(DUMMY_NAME, DUMMY_UUID);
+        DUMMY_RESUME = new Resume(DUMMY_NAME, DUMMY_UUID);*/
+        R1 = MainResumeTestData.autoFillContent(FULL_NAME_1, UUID_1);
+        R2 = MainResumeTestData.autoFillContent(FULL_NAME_2, UUID_2);
+        R3 = MainResumeTestData.autoFillContent(FULL_NAME_3, UUID_3);
+        R4 = MainResumeTestData.autoFillContent(FULL_NAME_4, UUID_4);
+        DUMMY_RESUME = MainResumeTestData.autoFillContent(DUMMY_NAME, DUMMY_UUID);
+
 
         INITIAL_RESUMES = new Resume[]{R1, R2, R3};
         INITIAL_SIZE = INITIAL_RESUMES.length;

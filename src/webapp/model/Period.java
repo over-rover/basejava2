@@ -1,6 +1,9 @@
 package webapp.model;
 
+import webapp.util.DateUtil;
+
 import java.time.LocalDate;
+import java.time.Month;
 
 public class Period {
     private String title;
@@ -37,6 +40,7 @@ public class Period {
     }
 
     public void setEndDate(String endDate) {
+        DateUtil.of(2001, Month.APRIL);
         if (endDate.equalsIgnoreCase("По настоящее время"))
             this.endDate = LocalDate.now();
         else
