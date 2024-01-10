@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
-    private File directory;
+    private final File directory;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null!!!");
@@ -22,37 +22,32 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public Resume[] getAll() {
         File[] files = directory.listFiles();
-        assert files != null;
+        if (files == null)
+            throw new StorageException("Директория не существует", directory.getName());
         Resume[] resumes = new Resume[files.length];
         for (int i = 0; i < resumes.length; i++) {
-            try {
-                resumes[i] = doRead(files[i]);
-            } catch (IOException e) {
-                throw new StorageException("IO error", files[i].getName(), e);
-            }
+            resumes[i] = doGet(files[i]);
         }
         return resumes;
     }
 
     @Override
     public void clear() {
-        if (deleteObj(directory))
-            System.out.println("\nВыполнена очистка директории");
-    }
-
-    private boolean deleteObj(File obj) {
-        File[] files = obj.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                deleteObj(file);
-            }
+        File[] files = directory.listFiles();
+        if (files == null)
+            throw new StorageException("Директория не существует", directory.getName());
+        for (File file : files) {
+            doDelete(file);
         }
-        return obj.delete();
+        System.out.println("\nВыполнена очистка директории");
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.listFiles()).length;
+        File[] files = directory.listFiles();
+        if (files == null)
+            throw new StorageException("Директория не существует", directory.getName());
+        return files.length;
     }
 
     @Override
@@ -67,7 +62,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete())
+            throw new StorageException("Не удалось удалить файл", file.getName());
     }
 
     @Override
