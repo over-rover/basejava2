@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanySection extends Section {
+    private static final long serialVersionUID = 1L;
     private final List<Company> companies = new ArrayList<>();
 
     public List<Company> getCompanies() {
@@ -13,7 +14,6 @@ public class CompanySection extends Section {
     public void add(Company company) {
         companies.add(company);
     }
-
 
 
     public void delete(Company company) {
@@ -38,7 +38,7 @@ public class CompanySection extends Section {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for(Company company : companies) {
+        for (Company company : companies) {
             stringBuilder.append(company);
         }
         return stringBuilder.toString();

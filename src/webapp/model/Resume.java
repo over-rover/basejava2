@@ -1,11 +1,12 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Resume implements Comparable<Resume> {
-
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUID = 1L;
     private final String fullName;
     private final String uuid;
     private final Map<ContactType, String> contacts = new LinkedHashMap<>();

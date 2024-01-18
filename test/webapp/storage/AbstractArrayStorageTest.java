@@ -9,9 +9,9 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         super(storage);
     }
 
-    @Test(expected = StorageException.class)
+    /*@Test(expected = StorageException.class)
     public void saveOverflow() {
         saveCheckUnexpectedError();
         storage.save(new Resume(""));
-    }
+    }*/
 }

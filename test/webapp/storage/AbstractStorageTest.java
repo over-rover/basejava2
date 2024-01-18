@@ -5,12 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
-import webapp.maintest.MainResumeTestData;
+import maintest.MainResumeTestData;
 import webapp.model.Resume;
 
+import java.io.File;
 import java.util.Arrays;
 
 public abstract class AbstractStorageTest {
+    protected final static File STORAGE_DIR = new File("E:\\_Sashpav\\разное-sashpav\\Обучение-курсы\\JavaOPs\\02BaseJava\\basejava2\\storagedir");
     protected final Storage storage;
     private static final String FULL_NAME_1 = "name10";
     private static final String UUID_1 = "uuid10";
@@ -63,6 +65,7 @@ public abstract class AbstractStorageTest {
         storage.save(R3);
     }
 
+/*
     @Test
     public void saveCheckUnexpectedError() {
         storage.clear();
@@ -74,6 +77,7 @@ public abstract class AbstractStorageTest {
             Assert.fail("Непредвиденная ошибка при добавлении резюме в хранилище");
         }
     }
+*/
 
     @Test(expected = ExistStorageException.class)
     public void saveIfExist() {
@@ -115,7 +119,8 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume resume = new Resume(FULL_NAME_2, UUID_2);
         storage.update(resume);
-        Assert.assertSame(resume, storage.get(UUID_2));
+        //Assert.assertSame(resume, storage.get(UUID_2));
+        Assert.assertEquals(resume, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)

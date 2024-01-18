@@ -1,6 +1,9 @@
-package webapp.maintest;
+package maintest;
 
 import webapp.model.*;
+import webapp.util.DateUtil;
+
+import java.time.Month;
 
 public class MainResumeTestData {
 
@@ -8,7 +11,6 @@ public class MainResumeTestData {
         //fillContent("ФИО1","uuid1").printToConsole();
         //autoFillContent("ФИО1", "uuid1").printToConsole();
         //autoFillContent("ФИО2", "uuid2").printToConsole();
-
     }
 
     /*Автозаполнение резюме для проведения тестов.
@@ -50,14 +52,14 @@ public class MainResumeTestData {
         CompanySection expCompanySection = new CompanySection();
         for (int c = 1; c <= 4; c++) {
             Company company = new Company();
-            company.setName(user + " Company-" + c + " name");
-            company.setWebsite(user + " www.company-" + c + ".ru");
+            company.homePage.setName(user + " Company-" + c + " name");
+            company.homePage.setUrl(user + " www.company-" + c + ".ru");
             for (int p = 1; p <= (int) (Math.random() * 3 + 1); p++) {
-                Period period = new Period();
+                Company.Period period = new Company.Period();
                 period.setTitle(user + " Должность-" + p);
                 period.setDescription(user + " Должностные обязанности - " + p);
-                period.setStartDate("2000-01-01");
-                period.setEndDate("2000-12-31");
+                period.setStartDate(2000, Month.JANUARY);
+                period.setEndDate(2000, Month.DECEMBER);
                 company.addPeriod(period);
             }
 
@@ -99,35 +101,35 @@ public class MainResumeTestData {
 
         CompanySection companyExSection = new CompanySection();
         Company company = new Company();
-        company.setName("Компания-1");
-        company.setWebsite("https://company-1");
+        company.homePage.setName("Компания-1");
+        company.homePage.setUrl("https://company-1");
 
-        Period period = new Period();
+        Company.Period period = new Company.Period();
         period.setTitle("В период1 занимал Должность1");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период1");
-        period.setStartDate("2004-01-01");
-        period.setEndDate("2004-12-31");
+        period.setStartDate(2004, Month.JANUARY);
+        period.setEndDate(2004, Month.DECEMBER);
         company.addPeriod(period);
 
-        period = new Period();
+        period = new Company.Period();
         period.setTitle("В период2 занимал Должность2");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период2");
-        period.setStartDate("2005-01-01");
-        period.setEndDate("2005-12-31");
+        period.setStartDate(2005, Month.JANUARY);
+        period.setEndDate(2005, Month.DECEMBER);
         company.addPeriod(period);
 
         companyExSection.add(company);
         resume.addSection(SectionType.EXPERIENCE, companyExSection);
 
         company = new Company();
-        company.setName("Компания-2");
-        company.setWebsite("https://company-2");
+        company.homePage.setName("Компания-2");
+        company.homePage.setUrl("https://company-2");
 
-        period = new Period();
+        period = new Company.Period();
         period.setTitle("Занимаю Должность...");
         period.setDescription("Здесь указываем должностные обязанности в компании2");
-        period.setStartDate("2006-01-01");
-        period.setEndDate("По настоящее время");
+        period.setStartDate(2006, Month.JANUARY);
+        period.setEndDate(DateUtil.NOW);
         company.addPeriod(period);
 
         companyExSection.add(company);
@@ -137,41 +139,41 @@ public class MainResumeTestData {
 
         CompanySection companyEdSection = new CompanySection();
         company = new Company();
-        company.setName("ВУЗ-1");
-        company.setWebsite("https://ed1");
-        period = new Period();
+        company.homePage.setName("ВУЗ-1");
+        company.homePage.setUrl("https://ed1");
+        period = new Company.Period();
         period.setTitle("Студент");
         period.setDescription("Проходил следующие дисциплины: основы студентуры");
-        period.setStartDate("2000-01-01");
-        period.setEndDate("2000-12-31");
+        period.setStartDate(2000, Month.JANUARY);
+        period.setEndDate(2000, Month.DECEMBER);
         company.addPeriod(period);
 
         companyEdSection.add(company);
         resume.addSection(SectionType.EDUCATION, companyEdSection);
 
-        period = new Period();
+        period = new Company.Period();
         period.setTitle("Магистр");
         period.setDescription("Проходил следующие дисциплины: основы магистратуры");
-        period.setStartDate("2001-01-01");
-        period.setEndDate("2001-12-31");
+        period.setStartDate(2001, Month.JANUARY);
+        period.setEndDate(2001, Month.DECEMBER);
         company.addPeriod(period);
 
 
-        period = new Period();
+        period = new Company.Period();
         period.setTitle("Аспирант");
         period.setDescription("Проходил следующие дисциплины: основы аспирантуры");
-        period.setStartDate("2002-01-01");
-        period.setEndDate("2002-12-31");
+        period.setStartDate(2002, Month.JANUARY);
+        period.setEndDate(2002, Month.DECEMBER);
         company.addPeriod(period);
 
         company = new Company();
-        company.setName("ВУЗ-2");
-        company.setWebsite("https://ed2");
-        period = new Period();
+        company.homePage.setName("ВУЗ-2");
+        company.homePage.setUrl("https://ed2");
+        period = new Company.Period();
         period.setTitle("Повышение квалификации");
         period.setDescription("Проходил следующие дисциплины: основы повышения квалификации");
-        period.setStartDate("2003-01-01");
-        period.setEndDate("2003-12-31");
+        period.setStartDate(2003, Month.JANUARY);
+        period.setEndDate(2003, Month.DECEMBER);
         company.addPeriod(period);
 
         companyEdSection.add(company);
