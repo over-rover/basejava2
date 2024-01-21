@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Arrays;
 
 public abstract class AbstractStorageTest {
-    protected final static File STORAGE_DIR = new File("E:\\_Sashpav\\разное-sashpav\\Обучение-курсы\\JavaOPs\\02BaseJava\\basejava2\\storagedir");
+    protected final static File STORAGE_DIR = new File(".\\storagedir");
     protected final Storage storage;
     private static final String FULL_NAME_1 = "name10";
     private static final String UUID_1 = "uuid10";
@@ -65,7 +65,6 @@ public abstract class AbstractStorageTest {
         storage.save(R3);
     }
 
-/*
     @Test
     public void saveCheckUnexpectedError() {
         storage.clear();
@@ -77,7 +76,6 @@ public abstract class AbstractStorageTest {
             Assert.fail("Непредвиденная ошибка при добавлении резюме в хранилище");
         }
     }
-*/
 
     @Test(expected = ExistStorageException.class)
     public void saveIfExist() {
