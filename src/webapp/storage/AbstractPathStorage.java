@@ -68,21 +68,19 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected void doSave(Resume r, Path path) {
         try {
             Files.createFile(path);
-            doWrite(r, path);
         } catch (IOException e) {
-            throw new StorageException("Ошибка при создании/сохранении файла ", path.getFileName().toString(), e);
+            throw new StorageException("Ошибка при создании файла ", path.getFileName().toString(), e);
         }
+        doUpdate(r, path);
     }
 
     @Override
     protected Resume doGet(Path path) {
-        Resume resume;
         try {
-            resume = doRead(path);
+            return doRead(path);
         } catch (IOException e) {
             throw new StorageException("Ошибка при чтении из файла ", path.getFileName().toString(), e);
         }
-        return resume;
     }
 
     @Override
@@ -95,13 +93,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
 
     private Path[] streamToPathArray() {
-        Path[] paths;
-        try (Stream<Path> pathStream = Files.walk(directory)) {
-            paths = (Path[]) pathStream.toArray();
+        try (Stream<Path> pathStream = Files.list(directory)) {
+            return (Path[]) pathStream.toArray();
         } catch (IOException e) {
             throw new StorageException("Ошибка при обращении к директории ", directory.getFileName().toString(), e);
         }
-        return paths;
     }
 
     protected abstract Resume doRead(Path path) throws IOException;

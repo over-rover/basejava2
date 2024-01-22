@@ -22,10 +22,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public Resume[] getAll() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Директория не существует", directory.getName());
-        }
+        File[] files = getFiles();
         Resume[] resumes = new Resume[files.length];
         for (int i = 0; i < resumes.length; i++) {
             resumes[i] = doGet(files[i]);
@@ -35,25 +32,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Директория не существует", directory.getName());
-        }
-        for (File file : files) {
+        for (File file : getFiles()) {
             doDelete(file);
         }
-        System.out.println("\nВыполнена очистка директории");
     }
 
     @Override
     public int size() {
-        //File[] files = directory.listFiles();
-        //вот вариант поэкономнее
-        String[] files = directory.list();
-        if (files == null) {
-            throw new StorageException("Директория не существует", directory.getName());
-        }
-        return files.length;
+        return getFiles().length;
     }
 
     @Override
@@ -69,28 +55,26 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doDelete(File file) {
         if (!file.delete())
-            throw new StorageException("Не удалось удалить файл", file.getName());
+            throw new StorageException("Ошибка при удалении файла ", file.getName());
     }
 
     @Override
     protected void doSave(Resume r, File file) {
         try {
             file.createNewFile();
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Ошибка при создании файла ", file.getName(), e);
         }
+        doUpdate(r, file);
     }
 
     @Override
     protected Resume doGet(File file) {
-        Resume resume;
         try {
-            resume = doRead(new BufferedInputStream(new FileInputStream(file)));
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Ошибка при чтении из файла ", file.getName(), e);
         }
-        return resume;
     }
 
     @Override
@@ -98,8 +82,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Ошибка при записи в файл ", file.getName(), e);
         }
+    }
+
+    private File[] getFiles() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Директория не существует", directory.getName());
+        }
+        return files;
     }
 
     protected abstract Resume doRead(InputStream file) throws IOException;
