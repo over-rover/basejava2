@@ -1,24 +1,30 @@
-package webapp.storage;
+package webapp.storage.strategy;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
+import webapp.storage.AbstractStorage;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public abstract class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
+    private final ReadWriteStrategy readWriteStrategy;
 
-    protected AbstractPathStorage(String dir) {
+    protected PathStorage(String dir, ReadWriteStrategy readWriteStrategy) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null!!!");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
+
+        this.readWriteStrategy = readWriteStrategy;
     }
 
     @Override
@@ -100,7 +106,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         }
     }
 
-    protected abstract Resume doRead(Path path) throws IOException;
+    protected Resume doRead(Path path) throws IOException {
+        return readWriteStrategy.doRead(path);
+    }
 
-    protected abstract void doWrite(Resume r, Path path) throws IOException;
+    protected void doWrite(Resume r, Path path) throws IOException {
+        readWriteStrategy.doWrite(r, path);
+    }
 }

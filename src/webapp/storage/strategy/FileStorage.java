@@ -1,15 +1,17 @@
-package webapp.storage;
+package webapp.storage.strategy;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
+import webapp.storage.AbstractStorage;
 
 import java.io.*;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private final File directory;
+    private final ReadWriteStrategy readWriteStrategy;
 
-    protected AbstractFileStorage(File directory) {
+    public FileStorage(File directory, ReadWriteStrategy readWriteStrategy) {
         Objects.requireNonNull(directory, "directory must not be null!!!");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -18,6 +20,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.readWriteStrategy = readWriteStrategy;
     }
 
     @Override
@@ -71,7 +74,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return readWriteStrategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Ошибка при чтении из файла ", file.getName(), e);
         }
@@ -80,7 +83,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume r, File file) {
         try {
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
+            readWriteStrategy.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Ошибка при записи в файл ", file.getName(), e);
         }
@@ -94,7 +97,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return files;
     }
 
-    protected abstract Resume doRead(InputStream file) throws IOException;
+    /*protected Resume doRead(InputStream file) throws IOException {
+        return readWriteStrategy.doRead(file);
+    }
 
-    protected abstract void doWrite(Resume r, OutputStream file) throws IOException;
+    protected void doWrite(Resume r, OutputStream file) throws IOException {
+        readWriteStrategy.doWrite(r, file);
+    }*/
 }
