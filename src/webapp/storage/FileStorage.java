@@ -1,8 +1,8 @@
-package webapp.storage.strategy;
+package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-import webapp.storage.AbstractStorage;
+import webapp.storage.strategy.ReadWriteStrategy;
 
 import java.io.*;
 import java.util.Objects;

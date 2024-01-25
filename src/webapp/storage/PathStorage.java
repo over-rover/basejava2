@@ -1,19 +1,18 @@
-package webapp.storage.strategy;
+package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-import webapp.storage.AbstractStorage;
+import webapp.storage.strategy.ReadWriteStrategy;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public abstract class PathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
+
     private final Path directory;
     private final ReadWriteStrategy readWriteStrategy;
 
@@ -83,7 +82,7 @@ public abstract class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(path);
+            return readWriteStrategy.doRead(path);
         } catch (IOException e) {
             throw new StorageException("Ошибка при чтении из файла ", path.getFileName().toString(), e);
         }
@@ -92,7 +91,7 @@ public abstract class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            doWrite(r, path);
+            readWriteStrategy.doWrite(r, path);
         } catch (IOException e) {
             throw new StorageException("Ошибка при записи в файл ", path.getFileName().toString(), e);
         }
@@ -100,17 +99,17 @@ public abstract class PathStorage extends AbstractStorage<Path> {
 
     private Path[] streamToPathArray() {
         try (Stream<Path> pathStream = Files.list(directory)) {
-            return (Path[]) pathStream.toArray();
+            return (pathStream.toArray(Path[]::new));
         } catch (IOException e) {
             throw new StorageException("Ошибка при обращении к директории ", directory.getFileName().toString(), e);
         }
     }
 
-    protected Resume doRead(Path path) throws IOException {
+/*    protected Resume doRead(Path path) throws IOException {
         return readWriteStrategy.doRead(path);
     }
 
     protected void doWrite(Resume r, Path path) throws IOException {
         readWriteStrategy.doWrite(r, path);
-    }
+    }*/
 }

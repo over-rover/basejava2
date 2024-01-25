@@ -1,6 +1,5 @@
 package webapp.storage;
 
-import webapp.storage.strategy.FileStorage;
 import webapp.storage.strategy.ObjectStreamStorage;
 
 public class FileStorageTest extends AbstractStorageTest {
