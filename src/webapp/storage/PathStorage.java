@@ -28,7 +28,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public Resume[] getAll() {
-        Path[] paths = streamToPathArray();
+        Path[] paths = getFilesList().toArray(Path[]::new);
         Resume[] resumes = new Resume[paths.length];
         for (int i = 0; i < resumes.length; i++) {
             resumes[i] = doGet(paths[i]);
@@ -47,7 +47,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        return streamToPathArray().length;
+        return (int) getFilesList().count();
     }
 
     @Override
@@ -97,19 +97,11 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    private Path[] streamToPathArray() {
-        try (Stream<Path> pathStream = Files.list(directory)) {
-            return (pathStream.toArray(Path[]::new));
+    private Stream<Path> getFilesList() {
+        try {
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Ошибка при обращении к директории ", directory.getFileName().toString(), e);
         }
     }
-
-/*    protected Resume doRead(Path path) throws IOException {
-        return readWriteStrategy.doRead(path);
-    }
-
-    protected void doWrite(Resume r, Path path) throws IOException {
-        readWriteStrategy.doWrite(r, path);
-    }*/
 }

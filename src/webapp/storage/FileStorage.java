@@ -96,12 +96,4 @@ public class FileStorage extends AbstractStorage<File> {
         }
         return files;
     }
-
-    /*protected Resume doRead(InputStream file) throws IOException {
-        return readWriteStrategy.doRead(file);
-    }
-
-    protected void doWrite(Resume r, OutputStream file) throws IOException {
-        readWriteStrategy.doWrite(r, file);
-    }*/
 }
