@@ -2,16 +2,16 @@ package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-import webapp.storage.strategy.ReadWriteStrategy;
+import webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
-    private final ReadWriteStrategy readWriteStrategy;
+    private final StreamSerializer streamSerializer;
 
-    public FileStorage(File directory, ReadWriteStrategy readWriteStrategy) {
+    public FileStorage(File directory, StreamSerializer streamSerializer) {
         Objects.requireNonNull(directory, "directory must not be null!!!");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -20,7 +20,7 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
-        this.readWriteStrategy = readWriteStrategy;
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File file) {
         try {
-            return readWriteStrategy.doRead(new BufferedInputStream(new FileInputStream(file)));
+            return streamSerializer.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Ошибка при чтении из файла ", file.getName(), e);
         }
@@ -83,7 +83,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume r, File file) {
         try {
-            readWriteStrategy.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
+            streamSerializer.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Ошибка при записи в файл ", file.getName(), e);
         }

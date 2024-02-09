@@ -2,7 +2,7 @@ package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-import webapp.storage.strategy.ReadWriteStrategy;
+import webapp.storage.serializer.StreamSerializer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,16 +14,16 @@ import java.util.stream.Stream;
 public class PathStorage extends AbstractStorage<Path> {
 
     private final Path directory;
-    private final ReadWriteStrategy readWriteStrategy;
+    private final StreamSerializer streamSerializer;
 
-    protected PathStorage(String dir, ReadWriteStrategy readWriteStrategy) {
+    protected PathStorage(String dir, StreamSerializer streamSerializer) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null!!!");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
 
-        this.readWriteStrategy = readWriteStrategy;
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -36,6 +36,7 @@ public class PathStorage extends AbstractStorage<Path> {
         return resumes;
     }
 
+    //Warning:(42, 19) 'Stream<Path>' used without 'try'-with-resources statement
     @Override
     public void clear() {
         try {
@@ -82,7 +83,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return readWriteStrategy.doRead(path);
+            return streamSerializer.doRead(Files.newInputStream(path));
         } catch (IOException e) {
             throw new StorageException("Ошибка при чтении из файла ", path.getFileName().toString(), e);
         }
@@ -91,7 +92,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            readWriteStrategy.doWrite(r, path);
+            streamSerializer.doWrite(r, Files.newOutputStream(path));
         } catch (IOException e) {
             throw new StorageException("Ошибка при записи в файл ", path.getFileName().toString(), e);
         }
