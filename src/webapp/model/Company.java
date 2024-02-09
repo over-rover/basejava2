@@ -2,6 +2,8 @@ package webapp.model;
 
 import webapp.util.DateUtil;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -9,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
     public Link homePage;
     private List<Period> periods = new ArrayList<>();
 
     public Company() {
-        this("");
     }
 
     public Company(String name) {
@@ -48,12 +50,16 @@ public class Company implements Serializable {
         return s.toString();
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
         private static final long serialVersionUID = 1L;
         private String title;
         private String description;
         private LocalDate startDate;
         private LocalDate endDate;
+
+        public Period() {
+        }
 
         public String getTitle() {
             return title;

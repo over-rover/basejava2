@@ -1,16 +1,24 @@
 package webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
-    private final String fullName;
-    private final String uuid;
+    private String fullName;
+    private String uuid;
     private final Map<ContactType, String> contacts = new LinkedHashMap<>();
     private final Map<SectionType, Section> sections = new LinkedHashMap<>();
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(fullName, UUID.randomUUID().toString());
