@@ -65,8 +65,8 @@ public class MainResumeTestData {
                 /*period.setTitle(user + " Должность-" + p);
                 period.setDescription(user + " Должностные обязанности - " + p);
                 period.setStartDate(2000, Month.JANUARY);
-                period.setEndDate(2000, Month.DECEMBER);*/
-                company.addPeriod(period);
+                period.setEndDate(2000, Month.DECEMBER);
+                company.addPeriod(period);*/
             }
 
             if (c <= 2) {
