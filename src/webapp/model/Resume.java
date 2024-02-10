@@ -4,9 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -14,8 +12,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
     private String fullName;
     private String uuid;
-    private final Map<ContactType, String> contacts = new LinkedHashMap<>();
-    private final Map<SectionType, Section> sections = new LinkedHashMap<>();
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume() {
     }
@@ -56,19 +54,19 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Resume r = (Resume) o;
-        if (!fullName.equals(r.fullName)) {
-            return false;
-        } else return uuid.equals(r.uuid);
+    public boolean equals(Object searchKey) {
+        if (this == searchKey) return true;
+        if (searchKey == null || getClass() != searchKey.getClass()) return false;
+        Resume resume = (Resume) searchKey;
+        return Objects.equals(fullName, resume.fullName) &&
+                Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return ((fullName + uuid).hashCode());
+        return Objects.hash(fullName, uuid, contacts, sections);
     }
 
     @Override

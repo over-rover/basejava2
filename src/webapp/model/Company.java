@@ -1,9 +1,11 @@
 package webapp.model;
 
 import webapp.util.DateUtil;
+import webapp.util.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -15,7 +17,7 @@ import java.util.Objects;
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
     public Link homePage;
-    private List<Period> periods = new ArrayList<>();
+    public List<Period> periods = new ArrayList<>();
 
     public Company() {
     }
@@ -41,24 +43,60 @@ public class Company implements Serializable {
     }
 
     @Override
+    public boolean equals(Object searchKey) {
+        if (this == searchKey) return true;
+        if (searchKey == null || getClass() != searchKey.getClass()) return false;
+        Company company = (Company) searchKey;
+        return Objects.equals(homePage, company.homePage) && Objects.equals(periods, company.periods);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(homePage, periods);
+    }
+
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder(homePage.toString() + "\n");
         for (Period value : periods) {
             s.append(value.toString());
         }
-
         return s.toString();
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
         private static final long serialVersionUID = 1L;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate = DateUtil.NOW;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
         private String title;
         private String description;
-        private LocalDate startDate;
-        private LocalDate endDate;
 
         public Period() {
+        }
+
+        public Period(LocalDate startDate) {
+            this(startDate, DateUtil.NOW);
+        }
+
+        public Period(LocalDate startDate, LocalDate endDate) {
+            this(startDate, endDate, "", "");
+        }
+
+        public Period(LocalDate startDate, LocalDate endDate, String title) {
+            this(startDate, endDate, title, "");
+        }
+
+        public Period(LocalDate startDate, LocalDate endDate, String title, String description) {
+            Objects.requireNonNull(startDate, "Необходимо указать начало периода");
+            Objects.requireNonNull(endDate, "Необходимо указать окончание периода");
+            Objects.requireNonNull(title, "Необходимо указать занимаемую должность");
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.title = title;
+            this.description = description;
         }
 
         public String getTitle() {

@@ -6,6 +6,8 @@ import webapp.util.DateUtil;
 import java.time.Month;
 
 public class MainResumeTestData {
+    public MainResumeTestData() {
+    }
 
     public static void main(String[] args) {
         //fillContent("ФИО1","uuid1").printToConsole();
@@ -51,15 +53,19 @@ public class MainResumeTestData {
         CompanySection eduCompanySection = new CompanySection();
         CompanySection expCompanySection = new CompanySection();
         for (int c = 1; c <= 4; c++) {
-            Company company = new Company();
-            company.homePage.setName(user + " Company-" + c + " name");
-            company.homePage.setUrl(user + " www.company-" + c + ".ru");
+            Company company = new Company(
+                    user + " Company-" + c + " name",
+                    user + " www.company-" + c + ".ru");
             for (int p = 1; p <= (int) (Math.random() * 3 + 1); p++) {
-                Company.Period period = new Company.Period();
-                period.setTitle(user + " Должность-" + p);
+                Company.Period period = new Company.Period(
+                        DateUtil.of(2000, Month.JANUARY),
+                        DateUtil.of(2000, Month.DECEMBER),
+                        user + " Должность-" + p,
+                        user + " Должностные обязанности - " + p);
+                /*period.setTitle(user + " Должность-" + p);
                 period.setDescription(user + " Должностные обязанности - " + p);
                 period.setStartDate(2000, Month.JANUARY);
-                period.setEndDate(2000, Month.DECEMBER);
+                period.setEndDate(2000, Month.DECEMBER);*/
                 company.addPeriod(period);
             }
 
@@ -100,36 +106,49 @@ public class MainResumeTestData {
         resume.addSection(SectionType.QUALIFICATIONS, listSection);
 
         CompanySection companyExSection = new CompanySection();
-        Company company = new Company();
+        Company company = new Company("Компания-1", "https://company-1");
+        /*Company company = new Company();
         company.homePage.setName("Компания-1");
-        company.homePage.setUrl("https://company-1");
+        company.homePage.setUrl("https://company-1");*/
 
-        Company.Period period = new Company.Period();
-        period.setTitle("В период1 занимал Должность1");
+        Company.Period period = new Company.Period(
+                DateUtil.of(2004, Month.JANUARY),
+                DateUtil.of(2004, Month.DECEMBER),
+                "В период1 занимал Должность1",
+                "Здесь указываем должностные обязанности в компании1 в период1");
+        /*period.setTitle("В период1 занимал Должность1");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период1");
         period.setStartDate(2004, Month.JANUARY);
-        period.setEndDate(2004, Month.DECEMBER);
+        period.setEndDate(2004, Month.DECEMBER);*/
         company.addPeriod(period);
 
-        period = new Company.Period();
-        period.setTitle("В период2 занимал Должность2");
+        period = new Company.Period(
+                DateUtil.of(2005, Month.JANUARY),
+                DateUtil.of(2005, Month.DECEMBER),
+                "В период2 занимал Должность2",
+                "Здесь указываем должностные обязанности в компании1 в период2");
+        /*period.setTitle("В период2 занимал Должность2");
         period.setDescription("Здесь указываем должностные обязанности в компании1 в период2");
         period.setStartDate(2005, Month.JANUARY);
-        period.setEndDate(2005, Month.DECEMBER);
+        period.setEndDate(2005, Month.DECEMBER);*/
         company.addPeriod(period);
 
         companyExSection.add(company);
         resume.addSection(SectionType.EXPERIENCE, companyExSection);
 
-        company = new Company();
-        company.homePage.setName("Компания-2");
-        company.homePage.setUrl("https://company-2");
+        company = new Company("Компания-2", "https://company-2");
+        /*company.homePage.setName("Компания-2");
+        company.homePage.setUrl("https://company-2");*/
 
-        period = new Company.Period();
-        period.setTitle("Занимаю Должность...");
+        period = new Company.Period(
+                DateUtil.of(2006, Month.JANUARY),
+                DateUtil.NOW,
+                "Занимаю Должность...",
+                "Здесь указываем должностные обязанности в компании2");
+       /* period.setTitle("Занимаю Должность...");
         period.setDescription("Здесь указываем должностные обязанности в компании2");
         period.setStartDate(2006, Month.JANUARY);
-        period.setEndDate(DateUtil.NOW);
+        period.setEndDate(DateUtil.NOW);*/
         company.addPeriod(period);
 
         companyExSection.add(company);
@@ -138,42 +157,58 @@ public class MainResumeTestData {
 
 
         CompanySection companyEdSection = new CompanySection();
-        company = new Company();
-        company.homePage.setName("ВУЗ-1");
-        company.homePage.setUrl("https://ed1");
-        period = new Company.Period();
-        period.setTitle("Студент");
+        company = new Company("ВУЗ-1", "https://ed1");
+        /*company.homePage.setName("ВУЗ-1");
+        company.homePage.setUrl("https://ed1");*/
+        period = new Company.Period(
+                DateUtil.of(2000, Month.JANUARY),
+                DateUtil.of(2000, Month.DECEMBER),
+                "Студент",
+                "Проходил следующие дисциплины: основы студентуры");
+        /*period.setTitle("Студент");
         period.setDescription("Проходил следующие дисциплины: основы студентуры");
         period.setStartDate(2000, Month.JANUARY);
-        period.setEndDate(2000, Month.DECEMBER);
+        period.setEndDate(2000, Month.DECEMBER);*/
         company.addPeriod(period);
 
         companyEdSection.add(company);
         resume.addSection(SectionType.EDUCATION, companyEdSection);
 
-        period = new Company.Period();
-        period.setTitle("Магистр");
+        period = new Company.Period(
+                DateUtil.of(2001, Month.JANUARY),
+                DateUtil.of(2001, Month.DECEMBER),
+                "Магистр",
+                "Проходил следующие дисциплины: основы магистратуры");
+        /*period.setTitle("Магистр");
         period.setDescription("Проходил следующие дисциплины: основы магистратуры");
         period.setStartDate(2001, Month.JANUARY);
-        period.setEndDate(2001, Month.DECEMBER);
+        period.setEndDate(2001, Month.DECEMBER);*/
         company.addPeriod(period);
 
 
-        period = new Company.Period();
-        period.setTitle("Аспирант");
+        period = new Company.Period(
+                DateUtil.of(2002, Month.JANUARY),
+                DateUtil.of(2002, Month.DECEMBER),
+                "Аспирант",
+                "Проходил следующие дисциплины: основы аспирантуры");
+        /*period.setTitle("Аспирант");
         period.setDescription("Проходил следующие дисциплины: основы аспирантуры");
         period.setStartDate(2002, Month.JANUARY);
-        period.setEndDate(2002, Month.DECEMBER);
+        period.setEndDate(2002, Month.DECEMBER);*/
         company.addPeriod(period);
 
-        company = new Company();
-        company.homePage.setName("ВУЗ-2");
-        company.homePage.setUrl("https://ed2");
-        period = new Company.Period();
-        period.setTitle("Повышение квалификации");
+        company = new Company("ВУЗ-2", "https://ed2");
+        /*company.homePage.setName("ВУЗ-2");
+        company.homePage.setUrl("https://ed2");*/
+        period = new Company.Period(
+                DateUtil.of(2003, Month.JANUARY),
+                DateUtil.of(2003, Month.DECEMBER),
+                "Повышение квалификации",
+                "Проходил следующие дисциплины: основы повышения квалификации");
+        /*period.setTitle("Повышение квалификации");
         period.setDescription("Проходил следующие дисциплины: основы повышения квалификации");
         period.setStartDate(2003, Month.JANUARY);
-        period.setEndDate(2003, Month.DECEMBER);
+        period.setEndDate(2003, Month.DECEMBER);*/
         company.addPeriod(period);
 
         companyEdSection.add(company);
