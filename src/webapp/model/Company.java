@@ -16,8 +16,8 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
-    public Link homePage;
-    public List<Period> periods = new ArrayList<>();
+    private Link homePage;
+    private List<Period> periods = new ArrayList<>();
 
     public Company() {
     }
@@ -28,6 +28,10 @@ public class Company implements Serializable {
 
     public Company(String name, String url) {
         homePage = new Link(name, url);
+    }
+
+    public Link getHomePage() {
+        return homePage;
     }
 
     public List<Period> getPeriods() {
@@ -123,6 +127,10 @@ public class Company implements Serializable {
             this.startDate = DateUtil.of(year, month);
         }
 
+        public void setStartDate(LocalDate localDate) {
+            this.startDate = localDate;
+        }
+
         public LocalDate getEndDate() {
             return endDate;
         }
@@ -131,8 +139,8 @@ public class Company implements Serializable {
             this.endDate = DateUtil.of(year, month);
         }
 
-        public void setEndDate(LocalDate now) {
-            this.endDate = now;
+        public void setEndDate(LocalDate localDate) {
+            this.endDate = localDate;
         }
 
         @Override

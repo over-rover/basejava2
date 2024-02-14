@@ -10,6 +10,10 @@ public class ListSection extends Section {
     public ListSection() {
     }
 
+    public List<String> getDescriptions() {
+        return descriptions;
+    }
+
     public void addDescription(String description) {
         descriptions.add(description);
     }
