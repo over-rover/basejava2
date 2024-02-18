@@ -54,14 +54,15 @@ public class MainResumeTestData {
         CompanySection expCompanySection = new CompanySection();
         for (int c = 1; c <= 4; c++) {
             Company company = new Company(
-                    user + " Company-" + c + " name",
-                    user + " www.company-" + c + ".ru");
+                    user + " Company-" + c + " name", null);
+                    //user + " www.company-" + c + ".ru");
             for (int p = 1; p <= (int) (Math.random() * 3 + 1); p++) {
                 Company.Period period = new Company.Period(
                         DateUtil.of(2000, Month.JANUARY),
                         DateUtil.of(2000, Month.DECEMBER),
-                        user + " Должность-" + p,
-                        user + " Должностные обязанности - " + p);
+                        user + " Должность-" + p, null);
+                        //user + " Должностные обязанности - " + p);
+                company.addPeriod(period);
                 /*period.setTitle(user + " Должность-" + p);
                 period.setDescription(user + " Должностные обязанности - " + p);
                 period.setStartDate(2000, Month.JANUARY);

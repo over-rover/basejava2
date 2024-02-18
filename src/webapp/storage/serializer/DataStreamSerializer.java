@@ -1,13 +1,21 @@
 package webapp.storage.serializer;
 
-import webapp.model.*;
+import webapp.model.Company;
+import webapp.model.CompanySection;
+import webapp.model.ContactType;
+import webapp.model.ListSection;
+import webapp.model.Resume;
+import webapp.model.Section;
+import webapp.model.SectionType;
+import webapp.model.TextSection;
+import webapp.util.DateUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
+import java.time.Month;
 import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
@@ -50,17 +58,15 @@ public class DataStreamSerializer implements StreamSerializer {
                         Company company;
                         int numOfCompanies = dis.readInt();
                         for (int companyNumber = 0; companyNumber < numOfCompanies; companyNumber++) {
-                            company = new Company(dis.readUTF(), dis.readUTF());
+                            String name = dis.readUTF();
+                            String url = dis.readUTF();
+                            url = getAsNullIfStringValue(url);
+                            company = new Company(name, url);
                             Company.Period period;
                             int numOfPeriods = dis.readInt();
                             for (int periodNumber = 0; periodNumber < numOfPeriods; periodNumber++) {
                                 period = new Company.Period();
-                                String startPeriod = dis.readUTF();
-                                period.setStartDate(LocalDate.parse(startPeriod));
-                                String endPeriod = dis.readUTF();
-                                period.setEndDate(LocalDate.parse(endPeriod));
-                                period.setTitle(dis.readUTF());
-                                period.setDescription(dis.readUTF());
+                                readPeriod(dis, period);
                                 company.addPeriod(period);
                             }
                             companySection.add(company);
@@ -107,17 +113,45 @@ public class DataStreamSerializer implements StreamSerializer {
                         dos.writeInt(companySection.getCompanies().size());
                         for (Company company : companySection.getCompanies()) {
                             dos.writeUTF(company.getHomePage().getName());
-                            dos.writeUTF(company.getHomePage().getUrl());
+                            String url = getAsStringIfNull(company.getHomePage().getUrl());
+                            dos.writeUTF(url);
                             dos.writeInt(company.getPeriods().size());
                             for (Company.Period period : company.getPeriods()) {
-                                dos.writeUTF(period.getStartDate().toString());
-                                dos.writeUTF(period.getEndDate().toString());
-                                dos.writeUTF(period.getTitle());
-                                dos.writeUTF(period.getDescription());
+                                writePeriod(dos, period);
                             }
                         }
                 }
             }
         }
+    }
+
+    private String getAsStringIfNull(String value) {
+        return (value == null) ? "null" : value;
+    }
+
+    private String getAsNullIfStringValue(String value) {
+        return (value.equals("null")) ? null : value;
+    }
+
+    private void writePeriod(DataOutputStream dos, Company.Period period) throws IOException {
+        dos.writeInt(period.getStartDate().getYear());
+        dos.writeInt(period.getStartDate().getMonthValue());
+        dos.writeInt(period.getEndDate().getYear());
+        dos.writeInt(period.getEndDate().getMonthValue());
+        dos.writeUTF(period.getTitle());
+        String description = getAsStringIfNull(period.getDescription());
+        dos.writeUTF(description);
+    }
+
+    private void readPeriod(DataInputStream dis, Company.Period period) throws IOException {
+        int year = dis.readInt();
+        int month = dis.readInt();
+        period.setStartDate(DateUtil.of(year, Month.of(month)));
+        year = dis.readInt();
+        month = dis.readInt();
+        period.setEndDate(DateUtil.of(year, Month.of(month)));
+        period.setTitle(dis.readUTF());
+        String description = dis.readUTF();
+        period.setDescription(getAsNullIfStringValue(description));
     }
 }
